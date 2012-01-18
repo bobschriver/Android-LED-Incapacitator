@@ -1,3 +1,5 @@
 *.class
 *.cfg
-
+.classpath
+.project
+.settings
