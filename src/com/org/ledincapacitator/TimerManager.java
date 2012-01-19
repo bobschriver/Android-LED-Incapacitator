@@ -59,6 +59,7 @@ public class TimerManager {
 		{
 			public void run()
 			{
+				System.out.println("Turning flash on");
 				flash.setFlashOn();
 			}
 		};
@@ -67,6 +68,7 @@ public class TimerManager {
 		{
 			public void run()
 			{
+				System.out.println("Turning flash off");
 				flash.setFlashOff();
 			}
 		};
@@ -82,6 +84,17 @@ public class TimerManager {
 	public void stopTimer()
 	{
 		timer.cancel();
+	}
+	
+	public void changeFrequency(double frequency , double duration)
+	{
+		setFrequency(frequency);
+		this.duration = duration;
+		stopTimer();
+		
+		timer = new Timer();
+		
+		startTimer();
 	}
 	
 }
