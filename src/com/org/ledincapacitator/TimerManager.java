@@ -52,17 +52,23 @@ public class TimerManager {
 		this.frequencyMax = frequency;
 	}
 	
+	public void setDuration(double duration)
+	{
+		this.duration = duration;
+	}
+	
 	public void startTimer()
 	{
 		
-		TimerTask taskOn = new TimerTask()
+		/*TimerTask taskOn = new TimerTask()
 		{
 			public void run()
 			{
 				System.out.println("Turning flash on");
 				flash.setFlashOn();
+				
 			}
-		};
+		};*/
 		
 		TimerTask taskOff = new TimerTask()
 		{
@@ -73,12 +79,25 @@ public class TimerManager {
 			}
 		};
 		
+		TimerTask taskRestart = new TimerTask()
+		{
+			public void run()
+			{
+				System.out.println("Resetting Timer");
+				startTimer();
+			}
+		};
+		
 		long period = (long) ((1 / frequencyMin) * 1000);
 		long offDelay = (long) (duration * period);
 		
 		
-		timer.schedule(taskOn, 0, period);
-		timer.schedule(taskOff, offDelay , period);
+		//timer.schedule(taskOn, 0);
+		
+		flash.setFlashOn();
+		
+		timer.schedule(taskOff, offDelay);
+		timer.schedule(taskRestart, period);
 	}
 	
 	public void stopTimer()
@@ -86,15 +105,7 @@ public class TimerManager {
 		timer.cancel();
 	}
 	
-	public void changeFrequency(double frequency , double duration)
-	{
-		setFrequency(frequency);
-		this.duration = duration;
-		stopTimer();
-		
-		timer = new Timer();
-		
-		startTimer();
-	}
+	
+	
 	
 }

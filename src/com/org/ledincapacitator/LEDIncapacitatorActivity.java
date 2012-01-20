@@ -7,39 +7,26 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 	
 
-public class LEDIncapacitatorActivity extends Activity implements OnSeekBarChangeListener{
+public class LEDIncapacitatorActivity extends Activity{
     
-	 private TimerManager t;
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar1);
+        SeekBar frequencySeekBar = (SeekBar)findViewById(R.id.seekBar1);
+        SeekBar dutyCycleSeekBar = (SeekBar)findViewById(R.id.seekBar2);
         
-        seekBar.setOnSeekBarChangeListener(this);
+        TimerManager t = new TimerManager(15 , .5);
         
-        t = new TimerManager(15 , .5);
+        FrequencySlider f = new FrequencySlider(t);
+        DutyCycleSlider d = new DutyCycleSlider(t);
+        
+        frequencySeekBar.setOnSeekBarChangeListener(f);
+        dutyCycleSeekBar.setOnSeekBarChangeListener(d);  
         
         t.startTimer();
-        
-        
+         
     }
-;
-	public void onProgressChanged(SeekBar arg0, int progress, boolean arg2) {
-		// TODO Auto-generated method stub
-		System.out.println("Current progress " + progress + "\n");
-		t.changeFrequency(progress, .5);
-	}
-
-	public void onStartTrackingTouch(SeekBar arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onStopTrackingTouch(SeekBar arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }
