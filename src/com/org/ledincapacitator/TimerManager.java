@@ -5,10 +5,11 @@ import java.util.TimerTask;
 
 public class TimerManager {
 
-	private double frequencyMin;
-	private double frequencyMax;
+	private double minFrequency;
+	private double maxFrequency;
 	
-	private double duration;
+	private double minDuration;
+	private double maxDuration;
 	
 	private FlashManager flash;
 	
@@ -24,41 +25,46 @@ public class TimerManager {
 	{
 		this();
 		setFrequency(frequency);
-		this.duration = duration;
+		setDuration(duration);
 	}
 	
-
-	public TimerManager(double frequencyMin , double frequencyMax , double duration)
-	{
-		this();
-		this.frequencyMin = frequencyMin;
-		this.frequencyMax = frequencyMax;
-		
-		this.duration = duration;
-	}
 	
 	public void setFrequency(double frequency) {
-		setFrequencyMin(frequency);
-		setFrequencyMax(frequency);
-	}
-	
-	public void setFrequencyMin(double frequency)
-	{
-		this.frequencyMin = frequency;
-	}
-	
-	public void setFrequencyMax(double frequency)
-	{
-		this.frequencyMax = frequency;
+		setMinFrequency(frequency);
+		setMaxFrequency(frequency);
 	}
 	
 	public void setDuration(double duration)
 	{
-		this.duration = duration;
+		setMinDuration(duration);
+		setMaxDuration(duration);
+	}
+	
+	public void setMinFrequency(double frequency)
+	{
+		this.minFrequency = frequency;
+	}
+	
+	public void setMaxFrequency(double frequency)
+	{
+		this.maxFrequency = frequency;
+	}
+	
+	public void setMinDuration(double duration)
+	{
+		this.minDuration = duration;
+	}
+	
+	public void setMaxDuration(double duration)
+	{
+		this.maxDuration = duration;
 	}
 	
 	public void startTimer()
 	{
+		
+		double currFrequency = minFrequency + (Math.random() * (maxFrequency - minFrequency));
+		double currDuration = minDuration + (Math.random() * (maxDuration - minDuration));
 		
 		/*TimerTask taskOn = new TimerTask()
 		{
@@ -88,8 +94,8 @@ public class TimerManager {
 			}
 		};
 		
-		long period = (long) ((1 / frequencyMin) * 1000);
-		long offDelay = (long) (duration * period);
+		long period = (long) ((1 / currFrequency) * 1000);
+		long offDelay = (long) (currDuration * period);
 		
 		
 		//timer.schedule(taskOn, 0);
@@ -102,10 +108,8 @@ public class TimerManager {
 	
 	public void stopTimer()
 	{
+		System.out.println("Stopping timer");
 		timer.cancel();
 	}
-	
-	
-	
 	
 }

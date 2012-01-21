@@ -2,13 +2,15 @@ package com.org.ledincapacitator;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 	
 
 public class LEDIncapacitatorActivity extends Activity{
     
+	TimerManager time;
+	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,15 +20,40 @@ public class LEDIncapacitatorActivity extends Activity{
         SeekBar frequencySeekBar = (SeekBar)findViewById(R.id.seekBar1);
         SeekBar dutyCycleSeekBar = (SeekBar)findViewById(R.id.seekBar2);
         
-        TimerManager t = new TimerManager(15 , .5);
+        time = new TimerManager(15 , .5);
         
-        FrequencySlider f = new FrequencySlider(t);
-        DutyCycleSlider d = new DutyCycleSlider(t);
+        FrequencySlider f = new FrequencySlider(time);
+        DutyCycleSlider d = new DutyCycleSlider(time);
         
         frequencySeekBar.setOnSeekBarChangeListener(f);
         dutyCycleSeekBar.setOnSeekBarChangeListener(d);  
         
-        t.startTimer();
+        Button randomFrequencyButton = (Button)findViewById(R.id.button1);
+        
+        RandomFrequencyButton rF = new RandomFrequencyButton(time);
+        
+        randomFrequencyButton.setOnClickListener(rF);
+        
+        Button randomDutyCycleButton = (Button)findViewById(R.id.button2);
+        
+        RandomDutyCycleButton rDC = new RandomDutyCycleButton(time);
+        
+        randomDutyCycleButton.setOnClickListener(rDC);
+        
+        time.startTimer();
          
+    }
+    
+    
+    @Override
+    public void onPause()
+    {
+    	time.stopTimer();
+    }
+    
+    @Override
+    public void onStop()
+    {
+    	time.stopTimer();
     }
 }
